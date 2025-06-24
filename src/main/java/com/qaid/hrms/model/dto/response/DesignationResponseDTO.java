@@ -1,21 +1,15 @@
-package com.qaid.hrms.model.dto;
+package com.qaid.hrms.model.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class DesignationDTO {
-
+public class DesignationResponseDTO {
     private Long id;
     private String title;
     private String description;
     private Integer level;
-    private Boolean isActive = true;
+    private Boolean isActive;
     private Long departmentId;
     private String departmentName;
     private String jobDescription;

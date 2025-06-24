@@ -1,5 +1,6 @@
 package com.qaid.hrms.model.entity;
 
+import com.qaid.hrms.model.enums.CalendarEventType;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 

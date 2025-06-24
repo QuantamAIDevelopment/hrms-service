@@ -1,11 +1,10 @@
-package com.qaid.hrms.model.dto;
+package com.qaid.hrms.model.dto.response;
 
 import lombok.Data;
-
 import java.time.LocalDate;
 
 @Data
-public class LeaveRequestDTO {
+public class LeaveRequestResponseDTO {
     private Long id;
     private Long employeeId;
     private String employeeName;
@@ -24,4 +23,4 @@ public class LeaveRequestDTO {
     private LocalDate createdAt;
     private LocalDate updatedAt;
     private String departmentName;
-} 
+}

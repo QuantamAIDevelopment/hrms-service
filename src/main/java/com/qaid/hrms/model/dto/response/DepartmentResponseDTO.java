@@ -1,12 +1,11 @@
-package com.qaid.hrms.model.dto;
+package com.qaid.hrms.model.dto.response;
 
 import lombok.Data;
-
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class DepartmentDTO {
+public class DepartmentResponseDTO {
     private Long id;
     private String name;
     private String description;
@@ -19,7 +18,7 @@ public class DepartmentDTO {
     private String managerName;
     private LocalDate createdAt;
     private LocalDate updatedAt;
-    private List<DepartmentDTO> subDepartments;
+    private List<DepartmentResponseDTO> subDepartments;
     private Integer employeeCount;
-    private List<DesignationDTO> designations;
-} 
+    private List<DesignationResponseDTO> designations;
+}
