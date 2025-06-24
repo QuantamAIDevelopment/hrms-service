@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface CalendarService {
     CalendarEventResponse createEvent(CalendarEventRequest request);
-    CalendarEventResponse updateEvent(Long id, CalendarEventRequest request);
-    void deleteEvent(Long id);
-    CalendarEventResponse getEventById(Long id);
+    CalendarEventResponse updateEventByAllocatedId(String allocatedId, CalendarEventRequest request);
+    void deleteEventByAllocatedId(String allocatedId);
+    CalendarEventResponse getEventByAllocatedId(String allocatedId);
     List<CalendarEventResponse> getAllEvents();
     List<CalendarEventResponse> getEventsByDate(LocalDate date);
     List<CalendarEventResponse> getEventsByType(String type);

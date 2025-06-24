@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface HRPolicyService {
     HRPolicyResponse createPolicy(HRPolicyRequest request);
-    HRPolicyResponse updatePolicy(Long id, HRPolicyRequest request);
-    void deletePolicy(Long id);
-    HRPolicyResponse getPolicyById(Long id);
+    HRPolicyResponse updatePolicyByAllocatedId(String allocatedId, HRPolicyRequest request);
+    void deletePolicyByAllocatedId(String allocatedId);
+    HRPolicyResponse getPolicyByAllocatedId(String allocatedId);
     List<HRPolicyResponse> getAllPolicies();
     List<HRPolicyResponse> getPoliciesByCategory(String category);
 }

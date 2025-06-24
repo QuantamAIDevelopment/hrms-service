@@ -3,3 +3,9 @@ spring:
     name: HumanResourceManagementSystem
   profiles:
     active: local
+# application.yml
+  dot:
+    environments:
+      enabled: true
+      ignore-if-missing: true
+      filename: ".env"

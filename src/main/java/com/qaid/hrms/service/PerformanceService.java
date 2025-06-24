@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface PerformanceService {
     PerformanceResponse createPerformance(PerformanceRequest request);
-    PerformanceResponse updatePerformance(Long id, PerformanceRequest request);
-    void deletePerformance(Long id);
-    PerformanceResponse getPerformanceById(Long id);
+    PerformanceResponse updatePerformanceByEmployeeId(String employeeId, PerformanceRequest request);
+    void deletePerformanceByEmployeeId(String employeeId);
+    PerformanceResponse getPerformanceByEmployeeId(String employeeId);
     List<PerformanceResponse> getAllPerformances();
-    List<PerformanceResponse> getPerformancesByEmployee(Long employeeId);
+    List<PerformanceResponse> getPerformancesByEmployee(String employeeId);
 }

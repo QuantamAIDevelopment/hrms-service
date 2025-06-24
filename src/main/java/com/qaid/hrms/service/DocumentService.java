@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface DocumentService {
     DocumentResponse uploadDocument(DocumentRequest documentRequest);
-    DocumentResponse updateDocument(Long id, DocumentRequest documentRequest);
-    void deleteDocument(Long id);
-    DocumentResponse getDocumentById(Long id);
+    DocumentResponse updateDocumentByEmployeeId(String employeeId, DocumentRequest documentRequest);
+    void deleteDocumentByEmployeeId(String employeeId);
+    DocumentResponse getDocumentByEmployeeId(String employeeId);
     List<DocumentResponse> getAllDocuments();
-    List<DocumentResponse> getDocumentsByEmployee(Long employeeId);
+    List<DocumentResponse> getDocumentsByEmployee(String employeeId);
     List<DocumentResponse> getDocumentsByType(String documentType);
-    byte[] downloadDocument(Long id);
-    DocumentResponse updateDocumentStatus(Long id, String status);
-} 
+    byte[] downloadDocumentByEmployeeId(String employeeId);
+    DocumentResponse updateDocumentStatusByEmployeeId(String employeeId, String status);
+}

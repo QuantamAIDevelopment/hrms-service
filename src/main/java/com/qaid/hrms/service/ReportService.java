@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface ReportService {
     ReportResponse generateReport(ReportRequest reportRequest) throws IOException;
-    ReportResponse getReportById(Long id);
+    ReportResponse getReportByAllocatedId(String allocatedId);
     List<ReportResponse> getAllReports();
     List<ReportResponse> getReportsByType(String reportType);
     List<ReportResponse> getReportsByDateRange(LocalDate startDate, LocalDate endDate);
     List<ReportResponse> getReportsByTypeAndDateRange(String reportType, LocalDate startDate, LocalDate endDate);
-    byte[] downloadReport(Long id);
-    void deleteReport(Long id);
-} 
+    byte[] downloadReportByAllocatedId(String allocatedId);
+    void deleteReportByAllocatedId(String allocatedId);
+}

@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface FlowService {
     FlowResponse createFlow(FlowRequest request);
-    FlowResponse updateFlow(Long id, FlowRequest request);
-    void deleteFlow(Long id);
-    FlowResponse getFlowById(Long id);
+    FlowResponse updateFlowByAllocatedId(String allocatedId, FlowRequest request);
+    void deleteFlowByAllocatedId(String allocatedId);
+    FlowResponse getFlowByAllocatedId(String allocatedId);
     List<FlowResponse> getAllFlows();
     List<FlowResponse> getFlowsByStatus(String status);
 }

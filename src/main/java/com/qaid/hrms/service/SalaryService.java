@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface SalaryService {
     SalaryResponse createSalary(SalaryRequest salaryRequest);
-    SalaryResponse updateSalary(Long id, SalaryRequest salaryRequest);
-    void deleteSalary(Long id);
-    SalaryResponse getSalaryById(Long id);
+    SalaryResponse updateSalaryByEmployeeId(String employeeId, SalaryRequest salaryRequest);
+    void deleteSalaryByEmployeeId(String employeeId);
+    SalaryResponse getSalaryByEmployeeId(String employeeId);
     List<SalaryResponse> getAllSalaries();
-    List<SalaryResponse> getSalariesByEmployee(Long employeeId);
+    List<SalaryResponse> getSalariesByEmployee(String employeeId);
     List<SalaryResponse> getSalariesByPayPeriod(LocalDate startDate, LocalDate endDate);
-    List<SalaryResponse> getSalariesByEmployeeAndPayPeriod(Long employeeId, LocalDate startDate, LocalDate endDate);
-    SalaryResponse approveSalary(Long id, String comments);
-    SalaryResponse rejectSalary(Long id, String comments);
-} 
+    List<SalaryResponse> getSalariesByEmployeeAndPayPeriod(String employeeId, LocalDate startDate, LocalDate endDate);
+    SalaryResponse approveSalaryByEmployeeId(String employeeId, String comments);
+    SalaryResponse rejectSalaryByEmployeeId(String employeeId, String comments);
+}

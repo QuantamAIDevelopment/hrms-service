@@ -9,11 +9,11 @@ public interface TrainingManagementService {
 
     TrainingModuleResponse createTrainingModule(TrainingModuleRequest request);
 
-    TrainingModuleResponse updateTrainingModule(Long id, TrainingModuleRequest request);
+    TrainingModuleResponse updateTrainingModuleByAllocatedId(String allocatedId, TrainingModuleRequest request);
 
-    void deleteTrainingModule(Long id);
+    void deleteTrainingModuleByAllocatedId(String allocatedId);
 
-    TrainingModuleResponse getTrainingModuleById(Long id);
+    TrainingModuleResponse getTrainingModuleByAllocatedId(String allocatedId);
 
     List<TrainingModuleResponse> getAllTrainingModules();
 }

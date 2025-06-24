@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface TravelService {
     TravelResponse createTravel(TravelRequest travelRequest);
-    TravelResponse updateTravel(Long id, TravelRequest travelRequest);
-    void deleteTravel(Long id);
-    TravelResponse getTravelById(Long id);
+    TravelResponse updateTravelByEmployeeId(String employeeId, TravelRequest travelRequest);
+    void deleteTravelByEmployeeId(String employeeId);
+    TravelResponse getTravelByEmployeeId(String employeeId);
     List<TravelResponse> getAllTravels();
-    List<TravelResponse> getTravelsByEmployee(Long employeeId);
+    List<TravelResponse> getTravelsByEmployee(String employeeId);
     List<TravelResponse> getTravelsByDateRange(LocalDate startDate, LocalDate endDate);
-    List<TravelResponse> getTravelsByEmployeeAndDateRange(Long employeeId, LocalDate startDate, LocalDate endDate);
-    TravelResponse approveTravel(Long id, String comments);
-    TravelResponse rejectTravel(Long id, String comments);
-    TravelResponse updateActualCost(Long id, BigDecimal actualCost, String comments);
-} 
+    List<TravelResponse> getTravelsByEmployeeAndDateRange(String employeeId, LocalDate startDate, LocalDate endDate);
+    TravelResponse approveTravelByEmployeeId(String employeeId, String comments);
+    TravelResponse rejectTravelByEmployeeId(String employeeId, String comments);
+    TravelResponse updateActualCostByEmployeeId(String employeeId, BigDecimal actualCost, String comments);
+}

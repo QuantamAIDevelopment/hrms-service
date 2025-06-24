@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface EmployeeService {
     EmployeeResponse createEmployee(EmployeeRequest employeeRequest);
-    EmployeeResponse updateEmployee(Long id, EmployeeRequest employeeRequest);
-    void deleteEmployee(Long id);
-    EmployeeResponse getEmployeeById(Long id);
-    List<EmployeeResponse> getAllEmployees();
+    EmployeeResponse updateEmployeeByEmployeeId(String employeeId, EmployeeRequest employeeRequest);
+    void deleteEmployeeByEmployeeId(String employeeId);
     EmployeeResponse getEmployeeByEmployeeId(String employeeId);
-    List<EmployeeResponse> getEmployeesByDepartment(Long departmentId);
-    List<EmployeeResponse> getEmployeesBySupervisor(Long supervisorId);
+    EmployeeResponse getEmployeeByEmail(String email);
+    List<EmployeeResponse> getAllEmployees();
+    List<EmployeeResponse> getEmployeesByDepartment(String departmentId);
+    List<EmployeeResponse> getEmployeesBySupervisor(String supervisorEmployeeId);
     boolean existsByEmployeeId(String employeeId);
-} 
+}

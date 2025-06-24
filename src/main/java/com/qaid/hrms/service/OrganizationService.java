@@ -12,29 +12,29 @@ import java.util.List;
 public interface OrganizationService {
     // Department Operations
     DepartmentResponseDTO createDepartment(DepartmentRequestDTO departmentRequestDTO);
-    DepartmentResponseDTO updateDepartment(Long id, DepartmentRequestDTO departmentRequestDTO);
-    DepartmentResponseDTO getDepartment(Long id);
+    DepartmentResponseDTO updateDepartmentByAllocatedId(String departmentId, DepartmentRequestDTO departmentRequestDTO);
+    DepartmentResponseDTO getDepartmentByAllocatedId(String departmentId);
     Page<DepartmentResponseDTO> getAllDepartments(Pageable pageable);
     List<DepartmentResponseDTO> getDepartmentHierarchy();
-    List<DepartmentResponseDTO> getSubDepartments(Long departmentId);
+    List<DepartmentResponseDTO> getSubDepartments(String departmentId);
     
     // Department Management
-    DepartmentResponseDTO assignManager(Long departmentId, Long employeeId);
-    DepartmentResponseDTO updateDepartmentLocation(Long departmentId, String location);
-    void deactivateDepartment(Long departmentId);
+    DepartmentResponseDTO assignManager(String departmentId, String employeeId);
+    DepartmentResponseDTO updateDepartmentLocation(String departmentId, String location);
+    void deactivateDepartment(String departmentId);
     
     // Designation Operations
     DesignationResponseDTO createDesignation(DesignationRequestDTO designationRequestDTO);
-    DesignationResponseDTO updateDesignation(Long id, DesignationRequestDTO designationRequestDTO);
-    DesignationResponseDTO getDesignation(Long id);
-    List<DesignationResponseDTO> getDepartmentDesignations(Long departmentId);
+    DesignationResponseDTO updateDesignationByAllocatedId(String designationId, DesignationRequestDTO designationRequestDTO);
+    DesignationResponseDTO getDesignationByAllocatedId(String designationId);
+    List<DesignationResponseDTO> getDepartmentDesignations(String departmentId);
     
     // Organization Structure
     Object getOrganizationChart();
-    Object getDepartmentStructure(Long departmentId);
+    Object getDepartmentStructure(String departmentId);
     
     // Statistics and Reports
-    Object getDepartmentStatistics(Long departmentId);
+    Object getDepartmentStatistics(String departmentId);
     Object getOrganizationStatistics();
     
     // Employee Distribution

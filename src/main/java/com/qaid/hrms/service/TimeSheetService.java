@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface TimeSheetService {
     TimeSheetResponse createTimeSheet(TimeSheetRequest timeSheetRequest);
-    TimeSheetResponse updateTimeSheet(Long id, TimeSheetRequest timeSheetRequest);
-    void deleteTimeSheet(Long id);
-    TimeSheetResponse getTimeSheetById(Long id);
+    TimeSheetResponse updateTimeSheetByEmployeeId(String employeeId, TimeSheetRequest timeSheetRequest);
+    void deleteTimeSheetByEmployeeId(String employeeId);
+    TimeSheetResponse getTimeSheetByEmployeeId(String employeeId);
     List<TimeSheetResponse> getAllTimeSheets();
-    List<TimeSheetResponse> getTimeSheetsByEmployee(Long employeeId);
+    List<TimeSheetResponse> getTimeSheetsByEmployee(String employeeId);
     List<TimeSheetResponse> getTimeSheetsByDate(LocalDate date);
-    List<TimeSheetResponse> getTimeSheetsByEmployeeAndDate(Long employeeId, LocalDate date);
-    TimeSheetResponse approveTimeSheet(Long id, String comments);
-    TimeSheetResponse rejectTimeSheet(Long id, String comments);
-} 
+    List<TimeSheetResponse> getTimeSheetsByEmployeeAndDate(String employeeId, LocalDate date);
+    TimeSheetResponse approveTimeSheetByEmployeeId(String employeeId, String comments);
+    TimeSheetResponse rejectTimeSheetByEmployeeId(String employeeId, String comments);
+}

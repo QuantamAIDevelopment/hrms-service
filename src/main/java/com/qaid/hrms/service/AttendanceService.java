@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface AttendanceService {
     AttendanceResponse createAttendance(AttendanceRequest attendanceRequest);
-    AttendanceResponse updateAttendance(Long id, AttendanceRequest attendanceRequest);
-    void deleteAttendance(Long id);
-    AttendanceResponse getAttendanceById(Long id);
+    AttendanceResponse updateAttendanceByEmployeeId(String employeeId, AttendanceRequest attendanceRequest);
+    void deleteAttendanceByEmployeeId(String employeeId);
+    AttendanceResponse getAttendanceByEmployeeId(String employeeId);
     List<AttendanceResponse> getAllAttendance();
-    List<AttendanceResponse> getAttendanceByEmployee(Long employeeId);
+    List<AttendanceResponse> getAttendanceByEmployee(String employeeId);
     List<AttendanceResponse> getAttendanceByDate(LocalDate date);
-    List<AttendanceResponse> getAttendanceByEmployeeAndDate(Long employeeId, LocalDate date);
-    AttendanceResponse checkIn(Long employeeId);
-    AttendanceResponse checkOut(Long employeeId);
-} 
+    List<AttendanceResponse> getAttendanceByEmployeeAndDate(String employeeId, LocalDate date);
+    AttendanceResponse checkIn(String employeeId);
+    AttendanceResponse checkOut(String employeeId);
+}

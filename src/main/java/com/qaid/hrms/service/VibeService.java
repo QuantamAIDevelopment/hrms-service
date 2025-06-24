@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface VibeService {
     VibeResponse createVibe(VibeRequest request);
-    VibeResponse updateVibe(Long id, VibeRequest request);
-    void deleteVibe(Long id);
-    VibeResponse getVibeById(Long id);
+    VibeResponse updateVibeByAllocatedId(String allocatedId, VibeRequest request);
+    void deleteVibeByAllocatedId(String allocatedId);
+    VibeResponse getVibeByAllocatedId(String allocatedId);
     List<VibeResponse> getAllVibes();
 }

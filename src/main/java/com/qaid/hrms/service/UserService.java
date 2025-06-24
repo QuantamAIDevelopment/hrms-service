@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface UserService {
     UserResponse createUser(UserRequest userRequest);
-    UserResponse updateUser(Long id, UserRequest userRequest);
-    void deleteUser(Long id);
-    UserResponse getUserById(Long id);
+    UserResponse updateUserByEmail(String email, UserRequest userRequest);
+    void deleteUserByEmail(String email);
+    UserResponse getUserByEmail(String email);
     List<UserResponse> getAllUsers();
     User findByUsername(String username);
     User findByEmail(String email);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
-} 
+}

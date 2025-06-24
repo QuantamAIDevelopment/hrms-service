@@ -6,16 +6,15 @@ import com.qaid.hrms.model.dto.response.PerformanceReviewResponse;
 import java.util.List;
 
 public interface PerformanceManagementService {
-
     PerformanceReviewResponse createPerformanceReview(PerformanceReviewRequest request);
 
-    PerformanceReviewResponse updatePerformanceReview(Long id, PerformanceReviewRequest request);
+    PerformanceReviewResponse updatePerformanceReviewByEmployeeId(String employeeId, PerformanceReviewRequest request);
 
-    void deletePerformanceReview(Long id);
+    void deletePerformanceReviewByEmployeeId(String employeeId);
 
-    PerformanceReviewResponse getPerformanceReviewById(Long id);
+    PerformanceReviewResponse getPerformanceReviewByEmployeeId(String employeeId);
 
-    List<PerformanceReviewResponse> getPerformanceReviewsByEmployee(Long employeeId);
+    List<PerformanceReviewResponse> getPerformanceReviewsByEmployee(String employeeId);
 
     List<PerformanceReviewResponse> getAllPerformanceReviews();
 }

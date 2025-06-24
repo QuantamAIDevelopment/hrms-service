@@ -11,27 +11,27 @@ import java.util.List;
 public interface LeaveManagementService {
     // Leave Request Operations
     LeaveRequestResponseDTO createLeaveRequest(LeaveRequestRequestDTO leaveRequestRequestDTO);
-    LeaveRequestResponseDTO updateLeaveRequest(Long id, LeaveRequestRequestDTO leaveRequestRequestDTO);
-    LeaveRequestResponseDTO getLeaveRequest(Long id);
-    Page<LeaveRequestResponseDTO> getEmployeeLeaveRequests(Long employeeId, Pageable pageable);
-    Page<LeaveRequestResponseDTO> getDepartmentLeaveRequests(Long departmentId, com.qaid.hrms.model.enums.LeaveStatus status, Pageable pageable);
+    LeaveRequestResponseDTO updateLeaveRequestByEmployeeId(String employeeId, LeaveRequestRequestDTO leaveRequestRequestDTO);
+    LeaveRequestResponseDTO getLeaveRequestByEmployeeId(String employeeId);
+    Page<LeaveRequestResponseDTO> getEmployeeLeaveRequests(String employeeId, Pageable pageable);
+    Page<LeaveRequestResponseDTO> getDepartmentLeaveRequests(String departmentId, com.qaid.hrms.model.enums.LeaveStatus status, Pageable pageable);
     
     // Leave Approval Operations
-    LeaveRequestResponseDTO approveLeaveRequest(Long id, Long approverId);
-    LeaveRequestResponseDTO rejectLeaveRequest(Long id, Long approverId, String reason);
-    LeaveRequestResponseDTO cancelLeaveRequest(Long id);
+    LeaveRequestResponseDTO approveLeaveRequestByEmployeeId(String employeeId, String approverEmployeeId);
+    LeaveRequestResponseDTO rejectLeaveRequestByEmployeeId(String employeeId, String approverEmployeeId, String reason);
+    LeaveRequestResponseDTO cancelLeaveRequestByEmployeeId(String employeeId);
     
     // Leave Balance Operations
-    List<LeaveRequestResponseDTO> getEmployeeLeaveBalance(Long employeeId, Integer year);
-    boolean checkLeaveAvailability(Long employeeId, Long leaveTypeId, LocalDate startDate, LocalDate endDate);
+    List<LeaveRequestResponseDTO> getEmployeeLeaveBalance(String employeeId, Integer year);
+    boolean checkLeaveAvailability(String employeeId, String leaveTypeId, LocalDate startDate, LocalDate endDate);
     
     // Leave Type Operations
-    List<LeaveRequestResponseDTO> getAvailableLeaveTypes(Long employeeId);
+    List<LeaveRequestResponseDTO> getAvailableLeaveTypes(String employeeId);
     
     // Leave Calendar Operations
-    List<LeaveRequestResponseDTO> getDepartmentLeaveCalendar(Long departmentId, LocalDate startDate, LocalDate endDate);
+    List<LeaveRequestResponseDTO> getDepartmentLeaveCalendar(String departmentId, LocalDate startDate, LocalDate endDate);
     
     // Leave Statistics
-    Object getLeaveStatistics(Long departmentId, Integer year);
-    Object getEmployeeLeaveStatistics(Long employeeId, Integer year);
+    Object getLeaveStatistics(String departmentId, Integer year);
+    Object getEmployeeLeaveStatistics(String employeeId, Integer year);
 }
