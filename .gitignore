@@ -34,3 +34,4 @@ build/
 
 # Ignore .env files containing secrets
 .env
+**/src/main/resources/application-local.yml

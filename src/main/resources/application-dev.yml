@@ -1,0 +1,96 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hrms_dev?createDatabaseIfNotExist=true
+    username: postgres
+    password: Postgres@
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 3
+      idle-timeout: 300000
+      connection-timeout: 30000
+      max-lifetime: 600000
+    jpa:
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+        ddl-auto: update
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+          implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+      show-sql: true
+      open-in-view: false
+      properties:
+        hibernate:
+          format_sql: true
+          use_sql_comments: true
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          jdbc:
+            batch_size: 50
+            fetch_size: 50
+            batch_versioned_data: true
+
+# Server configuration
+server:
+  port: ${SERVER_PORT:8080}
+
+# Azure Configuration for local development
+azure:
+  # Azure Communication Services for email
+  communication:
+    connection-string: ${AZURE_COMMUNICATION_CONNECTION_STRING}
+    sender-address: ${AZURE_COMMUNICATION_SENDER_ADDRESS}
+
+  # Azure Storage for file storage
+  storage:
+    connection-string: ${AZURE_STORAGE_CONNECTION_STRING}
+    file-share-name: ${AZURE_STORAGE_FILE_SHARE_NAME}
+    container-name: ${AZURE_STORAGE_CONTAINER_NAME}
+
+  # Azure Key Vault for encryption
+  keyvault:
+    uri: ${AZURE_KEYVAULT_URI}
+    key-name: ${AZURE_KEYVAULT_KEY_NAME}
+
+  # Azure Active Directory for authentication
+  active-directory:
+    tenant-id: ${AZURE_AD_TENANT_ID}
+    client-id: ${AZURE_AD_CLIENT_ID}
+    client-secret: ${AZURE_AD_APP_SECRET}
+    enabled-for-spring-cloud: true
+
+  # Azure Identity configuration for accessing Azure services
+  identity:
+    managed-identity-client-id: ${AZURE_IDENTITY_CLIENT_ID:}
+    use-managed-identity: false
+    # The following properties are used by DefaultAzureCredential
+    # They are set here for convenience, but can also be set as environment variables
+    azure-tenant-id: ${AZURE_TENANT_ID:${azure.active-directory.tenant-id:}}
+    azure-client-id: ${AZURE_CLIENT_ID:${azure.active-directory.client-id:}}
+    azure-client-secret: ${AZURE_CLIENT_SECRET:${azure.active-directory.client-secret:}}
+
+  # Azure Application Insights for monitoring
+  application-insights:
+    instrumentation-key: ${AZURE_APPLICATION_INSIGHTS_KEY}
+    enabled: false
+# JWT Configuration
+app:
+  security:
+    jwt:
+      private-key-path: ${user.home}/.hrms/keys/private_key.pem
+      public-key-path: ${user.home}/.hrms/keys/public_key.pem
+      expiration-time: 86400000
+      issuer: HRMS
+
+jwt:
+  private-key-path: classpath:keys/private_key.pem
+  public-key-path: classpath:keys/public_key.pem
+
+# Enhanced logging for local development
+logging:
+  level:
+    root: INFO
+    com.qaid.hrms: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springdoc: DEBUG
