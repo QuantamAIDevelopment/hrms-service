@@ -71,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
             userRepository.save(user);
 
             String accessToken = jwtService.generateToken(user);
-            String refreshToken = jwtService.generateToken(user);
+            String refreshToken = jwtService.generateRefreshToken(user);
 
             return new JwtResponse(accessToken, refreshToken, user.getUsername(), user.getUserLevel());
         } catch (ResourceNotFoundException e) {
@@ -133,7 +133,7 @@ public class AuthServiceImpl implements AuthService {
             }
 
             String accessToken = jwtService.generateToken(user);
-            String newRefreshToken = jwtService.generateToken(user);
+            String newRefreshToken = jwtService.generateRefreshToken(user);
 
             return new JwtResponse(accessToken, newRefreshToken, user.getUsername(), user.getUserLevel());
         } catch (Exception e) {
@@ -303,4 +303,4 @@ public class AuthServiceImpl implements AuthService {
         response.setUpdatedAt(user.getUpdatedAt());
         return response;
     }
-} 
+}

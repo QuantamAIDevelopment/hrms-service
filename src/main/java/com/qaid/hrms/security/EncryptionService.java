@@ -25,9 +25,7 @@ public class EncryptionService {
             return Base64.getEncoder().encodeToString(encryptedBytes);
         } catch (Exception e) {
             logger.error("Error encrypting password: {}", e.getMessage());
-            // Return the original password if encryption fails
-            // This is not ideal for production but helps with development
-            return password;
+            throw new RuntimeException("Password encryption failed", e);
         }
     }
 

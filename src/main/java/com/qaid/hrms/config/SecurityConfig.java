@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -67,32 +66,42 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .cors(c -> c.configurationSource(corsConfigurationSource()))
-                .exceptionHandling(customizer -> customizer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(
-                                "/v3/api-docs/**",
-                                "/v3/api-docs.yaml",
-                                "/v3/api-docs.yaml/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/swagger-resources/**",
-                                "/webjars/**",
-                                "/actuator/**",
-                                "/auth/**",
-                                "/api/auth/**",
-                                "/error"
-                        )
-                        .permitAll()
-                        .anyRequest().authenticated()
+        http
+
+            .cors(c -> c.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/auth/**") // Disable CSRF only for stateless API endpoints
+            )
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers(
+                        "/v3/api-docs/**",
+                        "/v3/api-docs.yaml",
+                        "/v3/api-docs.yaml/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/swagger-resources/**",
+                        "/webjars/**",
+                        "/actuator/**",
+                        "/auth/**",
+                        "/api/auth/**",
+                        "/error"
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .permitAll()
+                .anyRequest().authenticated()
+            )
+            .exceptionHandling(ex -> ex
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+            )
+                .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+        // Add Content Security Policy header
+        http.headers(headers -> headers.contentSecurityPolicy(csp -> csp.policyDirectives(
+            "default-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self';"
+        )));
+        return http.build();
     }
 
     @Bean

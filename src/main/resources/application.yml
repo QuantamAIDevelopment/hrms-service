@@ -9,3 +9,11 @@ spring:
       enabled: true
       ignore-if-missing: true
       filename: ".env"
+
+app:
+  security:
+    jwt:
+      expiration: 86400000 # 24 hours in ms
+      issuer: HRMS
+      refresh-token:
+        expiration: 604800000 # 7 days in ms

@@ -37,16 +37,23 @@ public class JwtService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", user.getUserRoles());
         claims.put("userLevel", user.getUserLevel());
-        return createJwtToken(claims, user.getUsername());
+        return createJwtToken(claims, user.getUsername(), jwtConfig.getExpiration());
     }
 
-    private String createJwtToken(Map<String, Object> claims, String subject) {
+    public String generateRefreshToken(User user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("roles", user.getUserRoles());
+        claims.put("userLevel", user.getUserLevel());
+        return createJwtToken(claims, user.getUsername(), jwtConfig.getRefreshToken().getExpiration());
+    }
+
+    private String createJwtToken(Map<String, Object> claims, String subject, long expiration) {
         return Jwts.builder()
                 .claims()
                 .add(claims)
                 .subject(subject)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + jwtConfig.getExpiration()))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
                 .and()
                 .signWith(privateKey)
                 .compact();

@@ -9,11 +9,15 @@ import com.qaid.hrms.model.dto.response.UserResponse;
 import com.qaid.hrms.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/auth")
@@ -24,9 +28,29 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    // Simple in-memory rate limiter (per IP)
+    private final Map<String, RateLimitInfo> loginAttempts = new ConcurrentHashMap<>();
+    private static final int MAX_ATTEMPTS = 5;
+    private static final long WINDOW_MS = 60_000; // 1 minute
+
+    private static class RateLimitInfo {
+        int attempts;
+        long windowStart;
+    }
+
     @Operation(summary = "Login", description = "Login with username and password")
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletRequest request) {
+        String clientIp = request.getRemoteAddr();
+        RateLimitInfo info = loginAttempts.computeIfAbsent(clientIp, k -> new RateLimitInfo());
+        long now = System.currentTimeMillis();
+        if (now - info.windowStart > WINDOW_MS) {
+            info.windowStart = now;
+            info.attempts = 0;
+        }
+        if (++info.attempts > MAX_ATTEMPTS) {
+            return ResponseEntity.status(429).build(); // Too Many Requests
+        }
         try {
             return ResponseEntity.ok(authService.login(loginRequest));
         } catch (Exception e) {

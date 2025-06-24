@@ -31,7 +31,7 @@ public class JwtConfig {
 
     @Data
     public static class RefreshToken {
-        private long expiration;
+        private long expiration = 604800000; // 7 days in milliseconds
     }
 
 }
