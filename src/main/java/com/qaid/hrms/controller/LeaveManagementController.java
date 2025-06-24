@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -18,41 +19,49 @@ import java.util.List;
 public class LeaveManagementController {
     private final LeaveManagementService leaveManagementService;
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'HR', 'MANAGER', 'EMPLOYEE')")
     @PostMapping
     public ResponseEntity<LeaveRequestResponseDTO> createLeaveRequest(@RequestBody LeaveRequestRequestDTO request) {
         return ResponseEntity.ok(leaveManagementService.createLeaveRequest(request));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'HR', 'MANAGER')")
     @PutMapping("/{employeeId}")
     public ResponseEntity<LeaveRequestResponseDTO> updateLeaveRequestByEmployeeId(@PathVariable String employeeId, @RequestBody LeaveRequestRequestDTO request) {
         return ResponseEntity.ok(leaveManagementService.updateLeaveRequestByEmployeeId(employeeId, request));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'HR', 'MANAGER', 'EMPLOYEE')")
     @GetMapping("/{employeeId}")
     public ResponseEntity<LeaveRequestResponseDTO> getLeaveRequestByEmployeeId(@PathVariable String employeeId) {
         return ResponseEntity.ok(leaveManagementService.getLeaveRequestByEmployeeId(employeeId));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'HR', 'MANAGER')")
     @GetMapping("/employee/{employeeId}")
     public ResponseEntity<Page<LeaveRequestResponseDTO>> getEmployeeLeaveRequests(@PathVariable String employeeId, Pageable pageable) {
         return ResponseEntity.ok(leaveManagementService.getEmployeeLeaveRequests(employeeId, pageable));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'HR', 'MANAGER')")
     @GetMapping("/department/{departmentId}")
     public ResponseEntity<Page<LeaveRequestResponseDTO>> getDepartmentLeaveRequests(@PathVariable String departmentId, @RequestParam String status, Pageable pageable) {
         return ResponseEntity.ok(leaveManagementService.getDepartmentLeaveRequests(departmentId, com.qaid.hrms.model.enums.LeaveStatus.valueOf(status), pageable));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'HR', 'MANAGER')")
     @PostMapping("/{employeeId}/approve")
     public ResponseEntity<LeaveRequestResponseDTO> approveLeaveRequestByEmployeeId(@PathVariable String employeeId, @RequestParam String approverEmployeeId) {
         return ResponseEntity.ok(leaveManagementService.approveLeaveRequestByEmployeeId(employeeId, approverEmployeeId));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'HR', 'MANAGER')")
     @PostMapping("/{employeeId}/reject")
     public ResponseEntity<LeaveRequestResponseDTO> rejectLeaveRequestByEmployeeId(@PathVariable String employeeId, @RequestParam String approverEmployeeId, @RequestParam String reason) {
         return ResponseEntity.ok(leaveManagementService.rejectLeaveRequestByEmployeeId(employeeId, approverEmployeeId, reason));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'HR', 'MANAGER', 'EMPLOYEE')")
     @PostMapping("/{employeeId}/cancel")
     public ResponseEntity<LeaveRequestResponseDTO> cancelLeaveRequestByEmployeeId(@PathVariable String employeeId) {
         return ResponseEntity.ok(leaveManagementService.cancelLeaveRequestByEmployeeId(employeeId));
