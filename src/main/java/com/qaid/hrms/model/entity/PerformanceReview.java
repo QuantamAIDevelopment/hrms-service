@@ -1,8 +1,11 @@
 package com.qaid.hrms.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.time.LocalDate;
 
+@Data
 @Entity
 @Table(name = "performance_reviews")
 public class PerformanceReview {
@@ -26,5 +29,4 @@ public class PerformanceReview {
     @Column(nullable = false)
     private Integer rating;
 
-    // Getters and Setters
 }

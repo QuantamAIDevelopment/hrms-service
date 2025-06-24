@@ -75,4 +75,31 @@ public class AuthController {
         authService.resetPassword(request);
         return ResponseEntity.ok().build();
     }
+
+    @Operation(summary = "Verify Email", description = "Verify user email with token")
+    @GetMapping("/verify-email")
+    public ResponseEntity<Void> verifyEmail(@RequestParam String token) {
+        authService.verifyEmail(token);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Resend Verification Email", description = "Resend verification email to the user")
+    @PostMapping("/resend-verification-email")
+    public ResponseEntity<Void> resendVerificationEmail(@RequestParam String email) {
+        authService.resendVerificationEmail(email);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Get Current User", description = "Get the profile of the logged-in user")
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> getCurrentUser() {
+        return ResponseEntity.ok(authService.getCurrentUser());
+    }
+
+    @Operation(summary = "Update User Profile", description = "Update the profile of the logged-in user")
+    @PutMapping("/me")
+    public ResponseEntity<Void> updateUserProfile(@RequestBody UserRequest request) {
+        authService.updateUserProfile(request);
+        return ResponseEntity.ok().build();
+    }
 }
