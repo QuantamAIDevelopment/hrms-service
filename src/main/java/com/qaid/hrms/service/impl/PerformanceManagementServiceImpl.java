@@ -28,12 +28,12 @@ public class PerformanceManagementServiceImpl implements PerformanceManagementSe
     @Override
     @Transactional
     public PerformanceReviewResponse createPerformanceReview(PerformanceReviewRequest request) {
-        Employee employee = employeeRepository.findById(request.getEmployeeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+        Employee employee = employeeRepository.findById(request.getEmployeeId()).orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+        Employee reviewer = employeeRepository.findById(request.getReviewerId()).orElse(null);
         PerformanceReview review = new PerformanceReview();
-        review.setEmployeeId(employee.getId());
+        review.setEmployee(employee);
+        review.setReviewer(reviewer);
         review.setReviewDate(request.getReviewDate());
-        review.setReviewer(request.getReviewer());
         review.setComments(request.getComments());
         review.setRating(request.getRating());
         return mapToResponse(performanceReviewRepository.save(review));
@@ -42,15 +42,15 @@ public class PerformanceManagementServiceImpl implements PerformanceManagementSe
     @Override
     @Transactional
     public PerformanceReviewResponse updatePerformanceReviewByEmployeeId(String employeeId, PerformanceReviewRequest request) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
-        List<PerformanceReview> reviews = performanceReviewRepository.findByEmployeeId(employee.getId());
-        if (reviews.isEmpty()) {
-            throw new ResourceNotFoundException("No performance review found for employee");
-        }
-        PerformanceReview review = reviews.get(0); // For demo, update the first review
+        Employee employee = employeeRepository.findById(Long.valueOf(employeeId)).orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+        List<PerformanceReview> reviews = performanceReviewRepository.findByEmployee(employee);
+        if (reviews.isEmpty()) throw new ResourceNotFoundException("No performance review found for employee");
+        PerformanceReview review = reviews.get(0);
         if (request.getReviewDate() != null) review.setReviewDate(request.getReviewDate());
-        if (request.getReviewer() != null) review.setReviewer(request.getReviewer());
+        if (request.getReviewerId() != null) {
+            Employee reviewer = employeeRepository.findById(request.getReviewerId()).orElse(null);
+            review.setReviewer(reviewer);
+        }
         if (request.getComments() != null) review.setComments(request.getComments());
         if (request.getRating() != null) review.setRating(request.getRating());
         return mapToResponse(performanceReviewRepository.save(review));
@@ -59,33 +59,26 @@ public class PerformanceManagementServiceImpl implements PerformanceManagementSe
     @Override
     @Transactional
     public void deletePerformanceReviewByEmployeeId(String employeeId) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
-        List<PerformanceReview> reviews = performanceReviewRepository.findByEmployeeId(employee.getId());
-        if (reviews.isEmpty()) {
-            throw new ResourceNotFoundException("No performance review found for employee");
-        }
-        performanceReviewRepository.delete(reviews.get(0)); // For demo, delete the first review
+        Employee employee = employeeRepository.findById(Long.valueOf(employeeId)).orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+        List<PerformanceReview> reviews = performanceReviewRepository.findByEmployee(employee);
+        if (reviews.isEmpty()) throw new ResourceNotFoundException("No performance review found for employee");
+        performanceReviewRepository.delete(reviews.get(0));
     }
 
     @Override
     public PerformanceReviewResponse getPerformanceReviewByEmployeeId(String employeeId) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
-        List<PerformanceReview> reviews = performanceReviewRepository.findByEmployeeId(employee.getId());
-        if (reviews.isEmpty()) {
-            throw new ResourceNotFoundException("No performance review found for employee");
-        }
-        return mapToResponse(reviews.get(0)); // For demo, return the first review
+        Employee employee = employeeRepository.findById(Long.valueOf(employeeId)).orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+        List<PerformanceReview> reviews = performanceReviewRepository.findByEmployee(employee);
+        if (reviews.isEmpty()) throw new ResourceNotFoundException("No performance review found for employee");
+        return mapToResponse(reviews.get(0));
     }
 
     @Override
     public List<PerformanceReviewResponse> getPerformanceReviewsByEmployee(String employeeId) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
-        return performanceReviewRepository.findByEmployeeId(employee.getId()).stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+        Employee employee = employeeRepository.findById(Long.valueOf(employeeId)).orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+        return performanceReviewRepository.findByEmployee(employee).stream()
+            .map(this::mapToResponse)
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -98,8 +91,8 @@ public class PerformanceManagementServiceImpl implements PerformanceManagementSe
     private PerformanceReviewResponse mapToResponse(PerformanceReview review) {
         PerformanceReviewResponse response = new PerformanceReviewResponse();
         response.setId(review.getId());
-        response.setEmployeeId(review.getEmployeeId());
-        response.setReviewer(review.getReviewer());
+        response.setEmployeeId(review.getEmployee().getId());
+        response.setReviewer(review.getReviewer() != null ? review.getReviewer().getFirstName() + " " + review.getReviewer().getLastName() : null);
         response.setReviewDate(review.getReviewDate());
         response.setComments(review.getComments());
         response.setRating(review.getRating());

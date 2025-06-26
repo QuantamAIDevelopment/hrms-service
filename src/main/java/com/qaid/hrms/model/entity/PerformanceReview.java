@@ -14,11 +14,13 @@ public class PerformanceReview {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long employeeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
-    @Column(nullable = false)
-    private String reviewer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewer_id")
+    private Employee reviewer;
 
     @Column(nullable = false)
     private LocalDate reviewDate;

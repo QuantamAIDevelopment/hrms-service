@@ -10,8 +10,8 @@ public class PerformanceReviewRequest {
     @NotNull(message = "Employee ID is required")
     private Long employeeId;
 
-    @NotNull(message = "Reviewer is required")
-    private String reviewer;
+    @NotNull(message = "Reviewer ID is required")
+    private Long reviewerId;
 
     @NotNull(message = "Review date is required")
     private LocalDate reviewDate;
@@ -21,4 +21,12 @@ public class PerformanceReviewRequest {
 
     @NotNull(message = "Rating is required")
     private Integer rating;
+
+    public Long getReviewerId() {
+        return reviewerId;
+    }
+
+    public void setReviewerId(Long reviewerId) {
+        this.reviewerId = reviewerId;
+    }
 }
